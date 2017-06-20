@@ -1,0 +1,14 @@
+## Instruction
+# 1. Install the spring boot application in /var/spring-boot-demo, 
+# 2. Copy this script named spring-boot-demo.service in /etc/systemd/system directory
+[Unit]
+Description=spring-boot-demo
+After=syslog.target
+
+[Service]
+User=springBootDemo
+ExecStart=/var/spring-boot-demo/spring-boot-demo.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

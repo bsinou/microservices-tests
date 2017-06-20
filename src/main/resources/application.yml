@@ -1,0 +1,13 @@
+# test various configuration options
+server:
+    port: 8080
+---
+spring:
+    profiles: development
+server:
+    port: 7070
+---
+spring:
+    profiles: production
+server:
+    port: 80
