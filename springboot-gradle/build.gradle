@@ -32,7 +32,7 @@ springBoot {
 
 /** breaks everything, only the application.yml is imported.
 Rather put it in  src/main/resources
-TODO: check syntax to include a specific filoe via gradle.
+TODO: check syntax to include a specific file via gradle.
 jar {
   include "application.yml"
 }
