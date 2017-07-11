@@ -1,4 +1,4 @@
-package net.sinou.tutorials.spring.demo;
+package net.sinou.sandbox.springboot.gradle;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

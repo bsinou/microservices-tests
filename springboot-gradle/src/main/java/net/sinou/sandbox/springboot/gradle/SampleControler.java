@@ -1,4 +1,4 @@
-package net.sinou.tutorials.spring.demo;
+package net.sinou.sandbox.springboot.gradle;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
