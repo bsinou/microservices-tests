@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 /**
- * Conveniently replacing following standard annotations: Replace
- * @ Configuration, @ EnableAutoConfiguration and @ ComponentScan
+ * Conveniently replacing following standard annotations: Configuration,
+ * EnableAutoConfiguration and ComponentScan
  */
 public class DemoApplication {
 
