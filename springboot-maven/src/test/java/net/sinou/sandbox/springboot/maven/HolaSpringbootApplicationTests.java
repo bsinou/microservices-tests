@@ -1,4 +1,4 @@
-package com.redhat.examples.holaspringboot;
+package net.sinou.sandbox.springboot.maven;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
