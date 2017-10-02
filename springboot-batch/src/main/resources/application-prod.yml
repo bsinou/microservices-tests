@@ -1,0 +1,8 @@
+logging:
+  file: /var/logs/springboot/springboot_batch.log
+  pattern:
+    file: "%d %-5level [%thread] %logger{0} : %msg%n"
+  level:
+    org.springframework: WARN
+    org.hibernate: WARN
+    net.sinou: INFO

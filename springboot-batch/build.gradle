@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.7.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+
+// Current Jar
+jar {
+    baseName = 'springboot-batch'
+    version =  '0.0.1'
+}
+
+
+// Dependency management
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+ 	compile("org.springframework.boot:spring-boot-starter-batch")
+    compile("org.hsqldb:hsqldb")
+    testCompile "junit:junit"
+}
+
