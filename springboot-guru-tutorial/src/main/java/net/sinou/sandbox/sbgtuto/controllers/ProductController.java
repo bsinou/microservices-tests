@@ -57,4 +57,9 @@ public class ProductController {
 		return "redirect:/products";
 	}
 
+	/** Configure login for Spring Security */
+	@GetMapping(value = "/login")
+	public String login() {
+		return "login";
+	}
 }
