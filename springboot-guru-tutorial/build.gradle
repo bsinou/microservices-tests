@@ -18,8 +18,25 @@ group = 'net.sinou.sandbox'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+
 repositories {
 	mavenCentral()
+}
+
+// Centralise specific versions definition
+// For the time being, version are defined in gradle.properties file
+// ext {
+//		bootstrapVersion = '3.3.7-1'
+//		jqueryVersion = '3.2.1'
+//		thymeleafExtrasVersion = '2.1.2.RELEASE'
+//		jasyptVersion = '1.9.2'
+// }
+
+
+task printProps {
+    doLast {
+        println bootstrapVersion
+    }
 }
 
 
@@ -36,10 +53,16 @@ dependencies {
 	testCompile('org.springframework.security:spring-security-test')
 	
 	// Web libraries (bootstrap and jqueries)
-	compile 'org.webjars:bootstrap:3.3.7-1'
-	compile 'org.webjars:jquery:3.2.1'
+	// WARNING: use *double quote* to enable retrieval of version variable
+	compile "org.webjars:bootstrap:${bootstrapVersion}"
+	// curved brackets are optional
+	compile("org.webjars:jquery:$jqueryVersion")
 	
 	// Enable integration of Spring security with Thymeleaf templates
-	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE')
+	compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:$thymeleafExtrasVersion")
 	
+	// Encryption of users passwords
+	compile("org.jasypt:jasypt:$jasyptVersion")
+	// Compatible with spring 3 & 4
+	compile("org.jasypt:jasypt-springsecurity3:$jasyptVersion")
 }
