@@ -25,6 +25,8 @@ repositories {
 
 // Centralise specific versions definition
 // For the time being, version are defined in gradle.properties file
+// see https://stackoverflow.com/questions/38106576/how-do-i-define-a-variable-for-the-dependency-version-in-gradle
+// for a complete explanation
 // ext {
 //		bootstrapVersion = '3.3.7-1'
 //		jqueryVersion = '3.2.1'
@@ -32,6 +34,7 @@ repositories {
 //		jasyptVersion = '1.9.2'
 // }
 
+// NOTE see also https://github.com/libgdx/gdx-pay/blob/master/build.gradle for a complete example
 
 task printProps {
     doLast {
