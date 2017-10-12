@@ -1,4 +1,4 @@
-package net.sinou.tutorials.springboot.dummy;
+package net.sinou.tutorials.springbatch.dummy.item;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
+import net.sinou.tutorials.springbatch.dummy.domain.Person;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {

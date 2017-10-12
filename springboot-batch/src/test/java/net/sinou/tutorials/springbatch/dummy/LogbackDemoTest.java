@@ -1,6 +1,8 @@
-package net.sinou.tutorials.springboot.dummy;
+package net.sinou.tutorials.springbatch.dummy;
 
 import org.junit.Test;
+
+import net.sinou.tutorials.springbatch.dummy.LogbackDemo;
 
 public class LogbackDemoTest {
 
@@ -9,5 +11,4 @@ public class LogbackDemoTest {
 		LogbackDemo ld = new LogbackDemo();
 		ld.performTask();
 	}
-
 }

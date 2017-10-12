@@ -1,11 +1,8 @@
-package net.sinou.tutorials.springboot.dummy;
-
-import java.io.IOException;
+package net.sinou.tutorials.springbatch.dummy;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.Assert;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -15,19 +12,22 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import net.sinou.tutorials.springbatch.dummy.domain.Person;
+import net.sinou.tutorials.springbatch.dummy.item.JobCompletionNotificationListener;
+import net.sinou.tutorials.springbatch.dummy.item.MyLineMapper;
+import net.sinou.tutorials.springbatch.dummy.item.PersonItemProcessor;
+
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	// private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final String resourcePath = "net/sinou/tutorials/springbatch/dummy/sample-data.csv";
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -40,33 +40,12 @@ public class BatchConfiguration {
 
 	@Bean
 	public FlatFileItemReader<Person> reader() {
+		Resource resource = new ClassPathResource(resourcePath);
+		Assert.assertTrue("Resource not found at " + resourcePath, resource.exists());
+		
 		FlatFileItemReader<Person> reader = new FlatFileItemReader<Person>();
-
-		Resource resource = new ClassPathResource("net/sinou/tutorials/springboot/dummy/sample-data.csv");		
-		if (logger.isTraceEnabled())
-			try {
-				logger.trace("Resource found:  "+ resource.exists());
-				logger.trace("Resource retrieved at " + resource.getURI().toString());
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+		reader.setLineMapper(new MyLineMapper());
 		reader.setResource(resource);
-		reader.setLineMapper(new DefaultLineMapper<Person>() {
-			{
-				setLineTokenizer(new DelimitedLineTokenizer() {
-					{
-						setNames(new String[] { "firstName", "lastName" });
-					}
-				});
-				setFieldSetMapper(new BeanWrapperFieldSetMapper<Person>() {
-					{
-						setTargetType(Person.class);
-					}
-				});
-			}
-		});
 		return reader;
 	}
 

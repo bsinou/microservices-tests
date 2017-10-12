@@ -1,4 +1,4 @@
-package net.sinou.tutorials.springboot.dummy;
+package net.sinou.tutorials.springbatch.dummy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

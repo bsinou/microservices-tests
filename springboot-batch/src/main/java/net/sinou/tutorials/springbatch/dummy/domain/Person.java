@@ -1,4 +1,4 @@
-package net.sinou.tutorials.springboot.dummy;
+package net.sinou.tutorials.springbatch.dummy.domain;
 public class Person {
     private String lastName;
     private String firstName;

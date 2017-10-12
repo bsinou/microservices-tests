@@ -1,4 +1,4 @@
-package net.sinou.tutorials.springboot.dummy;
+package net.sinou.tutorials.springbatch.dummy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class DummyApp {
 	public static void main(String[] args) {
 		SpringApplication.run(DummyApp.class, args);
 	}
-
 }
