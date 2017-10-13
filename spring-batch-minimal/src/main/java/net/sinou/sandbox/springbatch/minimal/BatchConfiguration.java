@@ -1,11 +1,9 @@
-package net.sinou.tutorials.springbatch.dummy;
-
-import javax.sql.DataSource;
+package net.sinou.sandbox.springbatch.minimal;
 
 import org.junit.Assert;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -15,19 +13,20 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import net.sinou.tutorials.springbatch.dummy.domain.Person;
-import net.sinou.tutorials.springbatch.dummy.item.JobCompletionNotificationListener;
-import net.sinou.tutorials.springbatch.dummy.item.MyLineMapper;
-import net.sinou.tutorials.springbatch.dummy.item.PersonItemProcessor;
+import net.sinou.sandbox.springbatch.minimal.domain.Person;
+import net.sinou.sandbox.springbatch.minimal.item.MyLineMapper;
+import net.sinou.sandbox.springbatch.minimal.item.PersonItemProcessor;
+import net.sinou.sandbox.springbatch.minimal.listener.BasicListener;
 
 @Configuration
-@EnableBatchProcessing
+@Import({ AdvancedInfrastructureConfiguration.class, SimpleInfrastructureConfiguration.class })
 public class BatchConfiguration {
 	// private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private final String resourcePath = "net/sinou/tutorials/springbatch/dummy/sample-data.csv";
+	private final String resourcePath = "net/sinou/sandbox/springbatch/minimal/sample-data.csv";
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -36,7 +35,7 @@ public class BatchConfiguration {
 	public StepBuilderFactory stepBuilderFactory;
 
 	@Autowired
-	public DataSource dataSource;
+	public InfrastructureConfiguration infrastructureConfiguration;
 
 	@Bean
 	public FlatFileItemReader<Person> reader() {
@@ -59,12 +58,12 @@ public class BatchConfiguration {
 		JdbcBatchItemWriter<Person> writer = new JdbcBatchItemWriter<Person>();
 		writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Person>());
 		writer.setSql("INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)");
-		writer.setDataSource(dataSource);
+		writer.setDataSource(infrastructureConfiguration.dataSource());
 		return writer;
 	}
 
 	@Bean
-	public Job importUserJob(JobCompletionNotificationListener listener) {
+	public Job importUserJob(JobExecutionListener listener) {
 		return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener)
 				.flow(step1()).end().build();
 	}
@@ -74,4 +73,21 @@ public class BatchConfiguration {
 		return stepBuilderFactory.get("step1").<Person, Person>chunk(10).reader(reader()).processor(processor())
 				.writer(writer()).build();
 	}
+
+	@Bean
+	public BasicListener basicListener() {
+		return new BasicListener();
+	}
+
+	// @Bean
+	// public PropertySourcesPlaceholderConfigurer properties() {
+	// PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer =
+	// new PropertySourcesPlaceholderConfigurer();
+	// YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
+	// yaml.setResources(new ClassPathResource("application-default.yml"));
+	// propertySourcesPlaceholderConfigurer.setProperties(yaml.getObject());
+	//
+	// logger.info("===== Place holder configured");
+	// return propertySourcesPlaceholderConfigurer;
+	// }
 }
